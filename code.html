@@ -1,0 +1,3866 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ValScripts - Премиум скрипты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-light: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary: #1e293b;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray: #64748b;
+            --light-gray: #f1f5f9;
+            --gradient: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            --gradient-dark: linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo i {
+            margin-right: 12px;
+            font-size: 30px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 32px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 8px 0;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--light-gray);
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .user-balance {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 15px;
+        }
+        
+        .admin-badge {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
+            background: var(--gradient-dark);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-info {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 200px 0 140px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .hero .btn {
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            border-radius: 14px;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            top: 70%;
+            left: 80%;
+            animation-delay: 3s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            left: 85%;
+            animation-delay: 6s;
+        }
+        
+        .floating-element:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            top: 80%;
+            left: 15%;
+            animation-delay: 9s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-40px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        /* Animated Icons */
+        .animated-icon {
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 120px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-title h2 {
+            font-size: 3.2rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 30px auto 0;
+            font-size: 1.3rem;
+            line-height: 1.7;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: var(--light-gray);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.4s, box-shadow 0.4s;
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.2rem;
+            color: white;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Products Section */
+        .products {
+            background-color: var(--light);
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .category-tab {
+            padding: 16px 32px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+        
+        .category-tab.active {
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .category-tab.active::before {
+            left: 0;
+        }
+        
+        .category-tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .product-image {
+            height: 220px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.1));
+        }
+        
+        .product-info {
+            padding: 32px;
+        }
+        
+        .product-category {
+            color: var(--primary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .product-description {
+            color: var(--gray);
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 24px;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        
+        /* About Section */
+        .about {
+            background-color: var(--light-gray);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        
+        .about-text p {
+            margin-bottom: 25px;
+            color: var(--gray);
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            transition: transform 0.3s;
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .stat:hover {
+            transform: translateY(-8px);
+        }
+        
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        /* Reviews Section */
+        .reviews {
+            background-color: white;
+            position: relative;
+        }
+        
+        .reviews-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .reviews-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 40px;
+            padding: 30px 0;
+        }
+        
+        .review-card {
+            min-width: 400px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 5rem;
+            color: var(--primary-light);
+            opacity: 0.2;
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .review-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-right: 20px;
+        }
+        
+        .review-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .review-info p {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+        
+        .review-rating {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .review-text {
+            color: var(--gray);
+            font-style: italic;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+        
+        .slider-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .slider-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background-color: var(--light-gray);
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .faq-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .faq-question {
+            padding: 28px 35px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+            font-size: 1.15rem;
+        }
+        
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        
+        .faq-answer {
+            padding: 0 35px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 35px 28px;
+            max-height: 500px;
+        }
+        
+        .faq-toggle {
+            transition: transform 0.4s;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .contact p {
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .telegram-contact, .email-contact {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            color: var(--primary);
+            padding: 20px 40px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .telegram-contact:hover, .email-contact:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+        }
+        
+        .telegram-contact i, .email-contact i {
+            margin-right: 12px;
+            font-size: 1.6rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 100px 0 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 16px;
+        }
+        
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.05rem;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+        
+        /* User Panel */
+        .user-panel {
+            background-color: var(--light-gray);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .user-panel-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .user-purchases {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 30px;
+        }
+        
+        .user-purchase-item {
+            padding: 24px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .user-purchase-item:hover {
+            background: #f8fafc;
+        }
+        
+        .user-purchase-item:last-child {
+            border-bottom: none;
+        }
+        
+        .purchase-code {
+            font-family: monospace;
+            background: var(--light-gray);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        
+        .get-code-btn {
+            margin-left: 10px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            position: relative;
+            animation: modalAppear 0.3s ease;
+        }
+        
+        .modal-wide {
+            max-width: 800px;
+        }
+        
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method.active {
+            border-color: var(--primary);
+            background-color: rgba(124, 58, 237, 0.05);
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .crypto-address {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .crypto-qr {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .crypto-qr img {
+            max-width: 200px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .secure-payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            padding: 16px 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            border-left-color: var(--danger);
+        }
+        
+        .notification.warning {
+            border-left-color: var(--warning);
+        }
+        
+        .notification i {
+            font-size: 1.4rem;
+            color: var(--success);
+        }
+        
+        .notification.error i {
+            color: var(--danger);
+        }
+        
+        .notification.warning i {
+            color: var(--warning);
+        }
+        
+        /* Support Messages */
+        .support-messages {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+            margin-top: 30px;
+        }
+        
+        .message-item {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.3s;
+        }
+        
+        .message-item:hover {
+            background: #f8fafc;
+        }
+        
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .message-sender {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .message-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .message-content {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .message-reply {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        
+        .message-reply .message-sender {
+            color: var(--accent);
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background-color: var(--light-gray);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f9;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .admin-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .admin-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-weight: 700;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .users-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        
+        .user-item:hover {
+            background: #e2e8f0;
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .user-email {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .user-balance-info {
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Privacy Policy */
+        .privacy-policy {
+            background-color: var(--light-gray);
+            padding: 100px 0;
+        }
+        
+        .privacy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .privacy-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--secondary);
+            font-weight: 800;
+        }
+        
+        .privacy-content h3 {
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .privacy-content p {
+            margin-bottom: 20px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        .privacy-content ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .privacy-content li {
+            margin-bottom: 10px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .privacy-content {
+                padding: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin: 20px 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 12px 12px;
+            }
+            
+            .hero {
+                padding: 160px 0 100px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .about-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section-title h2 {
+                font-size: 2.3rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .review-card {
+                min-width: 320px;
+            }
+            
+            .notification {
+                right: 15px;
+                left: 15px;
+                transform: translateY(-150px);
+            }
+            
+            .notification.show {
+                transform: translateY(0);
+            }
+            
+            .payment-methods {
+                flex-direction: column;
+            }
+            
+            .privacy-content {
+                padding: 30px 20px;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .telegram-contact, .email-contact {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .user-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card, .product-card {
+                padding: 30px 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .review-card {
+                min-width: 280px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-code animated-icon"></i>
+                    ValScripts
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#features">Преимущества</a></li>
+                        <li><a href="#products">Скрипты</a></li>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#reviews">Отзывы</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons" id="auth-buttons">
+                    <!-- Будет заполнено JavaScript -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Профессиональные скрипты <span class="animated-icon"></span> для вашего успеха</h1>
+                <p>Мощные, надежные и безопасные решения для автоматизации, игр, трейдинга и веб-разработки. Улучшите свою эффективность с нашими премиум скриптами.</p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn btn-primary bounce">
+                        <i class="fas fa-rocket"></i> Смотреть скрипты
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        <i class="fas fa-star"></i> Узнать больше
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Почему выбирают нас <span class="animated-icon"></span></h2>
+                <p>Мы предлагаем лучшее качество и сервис на рынке скриптов</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Безопасность</h3>
+                    <p>Все наши скрипты проходят тщательную проверку на безопасность и не содержат вредоносного кода.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Высокая производительность</h3>
+                    <p>Оптимизированные скрипты работают быстро и эффективно, не нагружая систему.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Поддержка 24/7</h3>
+                    <p>Наша команда поддержки всегда готова помочь вам с любыми вопросами и проблемами.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync spin"></i>
+                    </div>
+                    <h3>Регулярные обновления</h3>
+                    <p>Мы постоянно обновляем наши скрипты для поддержания совместимости и добавления новых функций.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3>Чистый код</h3>
+                    <p>Все скрипты написаны с соблюдением лучших практик программирования и хорошо документированы.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem bounce"></i>
+                    </div>
+                    <h3>Премиум качество</h3>
+                    <p>Мы предлагаем только высококачественные решения, которые действительно работают.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши скрипты <span class="animated-icon"></span></h2>
+                <p>Выберите подходящий скрипт для ваших задач из широкого ассортимента</p>
+            </div>
+            
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">Все скрипты</div>
+                <div class="category-tab" data-category="programming">Языки программирования</div>
+                <div class="category-tab" data-category="games">Игровые скрипты</div>
+                <div class="category-tab" data-category="automation">Автоматизация</div>
+                <div class="category-tab" data-category="trading">Трейдинг</div>
+                <div class="category-tab" data-category="web">Веб-скрипты</div>
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Продукты будут загружены через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- User Panel -->
+    <section class="user-panel" id="user-panel" style="display: none;">
+        <div class="container">
+            <h2 class="user-panel-title">Личный кабинет <span class="animated-icon">👤</span></h2>
+            <div class="user-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="user-balance">0 ₽</div>
+                    <div class="stat-label">Баланс</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="user-purchases-count">0</div>
+                    <div class="stat-label">Куплено скриптов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="user-registration-date">-</div>
+                    <div class="stat-label">Дата регистрации</div>
+                </div>
+            </div>
+            
+            <h3>Мои покупки</h3>
+            <div class="user-purchases" id="user-purchases-list">
+                <!-- Список покупок будет заполнен JavaScript -->
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <button class="btn btn-success" id="add-balance-btn">
+                    <i class="fas fa-wallet"></i> Пополнить баланс
+                </button>
+                <button class="btn btn-primary" id="contact-support-btn" style="margin-left: 15px;">
+                    <i class="fas fa-headset"></i> Связаться с поддержкой
+                </button>
+                <button class="btn btn-warning" id="change-password-btn" style="margin-left: 15px;">
+                    <i class="fas fa-key"></i> Сменить пароль
+                </button>
+                <button class="btn btn-outline" id="logout-btn" style="margin-left: 15px;">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section class="admin-panel" id="admin-panel" style="display: none;">
+        <div class="container">
+            <h2 class="user-panel-title">Панель администратора <span class="animated-icon">⚙️</span></h2>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-users">0</div>
+                    <div class="stat-label">Всего пользователей</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-purchases">0</div>
+                    <div class="stat-label">Всего покупок</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-revenue">0 ₽</div>
+                    <div class="stat-label">Общий доход</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="unread-messages">0</div>
+                    <div class="stat-label">Новых сообщений</div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h3>Управление пользователями</h3>
+                <div class="users-list" id="users-list">
+                    <!-- Список пользователей будет загружен через JavaScript -->
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h3>Сообщения от пользователей</h3>
+                <div class="support-messages" id="admin-messages-list">
+                    <!-- Сообщения будут загружены через JavaScript -->
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h3>Последние покупки</h3>
+                <div class="user-purchases" id="admin-purchases-list">
+                    <!-- Покупки будут загружены через JavaScript -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <button class="btn btn-warning" id="admin-change-password-btn">
+                    <i class="fas fa-key"></i> Сменить пароль
+                </button>
+                <button class="btn btn-outline" id="admin-logout-btn" style="margin-left: 15px;">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>О нашей компании <span class="animated-icon"></span></h2>
+                <p>Мы команда профессионалов, создающая качественные решения для вашего бизнеса</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Мы создаем инструменты для вашего успеха</h2>
+                    <p>ValScripts - это команда опытных разработчиков, создающая высококачественные скрипты для различных целей. Наша миссия - предоставить вам надежные инструменты, которые помогут автоматизировать процессы, повысить эффективность и достичь ваших целей.</p>
+                    <p>Мы работаем на рынке более 5 лет и за это время помогли тысячам клиентов по всему миру. Наши скрипты используются как небольшими стартапами, так и крупными компаниями.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-value">5+</div>
+                            <div class="stat-label">Лет на рынке</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1000+</div>
+                            <div class="stat-label">Довольных клиентов</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Уникальных скриптов</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="О ValScripts">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <div class="section-title">
+                <h2>Отзывы клиентов <span class="animated-icon"></span></h2>
+                <p>Узнайте, что говорят о нас наши клиенты</p>
+            </div>
+            
+            <div class="reviews-container">
+                <div class="reviews-slider" id="reviews-slider">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">АИ</div>
+                            <div class="review-info">
+                                <h4>Алексей Иванов</h4>
+                                <p>Владелец IT-компании</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Скрипт для автоматизации работы с социальными сетями сэкономил нам десятки часов работы в месяц. Качество кода на высоте, поддержка отвечает быстро и помогает решить любые вопросы."</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">МС</div>
+                            <div class="review-info">
+                                <h4>Мария Смирнова</h4>
+                                <p>Фрилансер</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Пользуюсь Python скриптом для анализа данных уже полгода. Работает стабильно, без сбоев. Отличное соотношение цены и качества. Рекомендую!"</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">ДК</div>
+                            <div class="review-info">
+                                <h4>Николай Кузнецов</h4>
+                                <p>Трейдер</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="review-text">"Crypto Trader Pro - отличный инструмент для автоматизации торговли. За первый месяц использования смог увеличить доходность на 15%. Поддержка помогает с настройкой и отвечает на все вопросы."</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">ЕП</div>
+                            <div class="review-info">
+                                <h4>Елена Петрова</h4>
+                                <p>Веб-разработчик</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"SEO Optimizer значительно улучшил видимость моего сайта в поисковых системах. После использования скрипта трафик вырос на 40%. Очень довольна результатом!"</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">СВ</div>
+                            <div class="review-info">
+                                <h4>Сергей Васильев</h4>
+                                <p>Геймдевелопер</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Auto Farmer Pro сэкономил мне сотни часов гринда в играх. Скрипт работает стабильно, не вызывает подозрений у античитов. Отличная инвестиция для любого геймера!"</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">АН</div>
+                            <div class="review-info">
+                                <h4>Анна Новикова</h4>
+                                <p>SMM-менеджер</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Social Media Bot полностью изменил мой подход к работе с социальными сетями. Теперь я могу управлять несколькими аккаунтами одновременно без потери качества контента."</p>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prev-review">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-btn" id="next-review">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="slider-dots" id="slider-dots">
+                    <!-- Будет заполнено JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Часто задаваемые вопросы <span class="animated-icon">❓</span></h2>
+                <p>Ответы на самые популярные вопросы о наших скриптах и услугах</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Как происходит покупка и получение скрипта?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        После оплаты вы получаете доступ к личному кабинету, где можете скачать приобретенный скрипт. Также на вашу почту приходит письмо с инструкцией по установке и использованию.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Предоставляете ли вы техническую поддержку?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Да, мы предоставляем бесплатную техническую поддержку в течение 6 месяцев после покупки. Наша команда готова помочь с установкой, настройкой и решением любых проблем.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Как часто обновляются ваши скрипты?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Мы регулярно выпускаем обновления для всех наших скриптов. Обновления включают исправление ошибок, улучшение производительности и добавление новых функций. Все обновления бесплатны для наших клиентов.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Можно ли получить refund, если скрипт не подошел?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Мы предоставляем гарантию возврата средств в течение 14 дней после покупки, если скрипт не работает как заявлено в описании. Для запроса на возврат свяжитесь с нашей службой поддержки.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Совместимы ли ваши скрипты с разными операционными системами?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Большинство наших скриптов кроссплатформенны и работают на Windows, macOS и Linux. В описании каждого скрипта указана поддерживаемая операционная система.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Свяжитесь с нами <span class="animated-icon">📞</span></h2>
+            <p>Есть вопросы или нужна помощь? Напишите нам в Telegram или на почту, и мы ответим в течение 15 минут</p>
+            <div class="contact-buttons">
+                <a href="https://t.me/valscripts_support" class="telegram-contact bounce" target="_blank">
+                    <i class="fab fa-telegram"></i> Написать в Telegram
+                </a>
+                <a href="mailto:pixelgearmail@gmail.com" class="email-contact bounce">
+                    <i class="fas fa-envelope"></i> Написать на почту
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section class="privacy-policy" id="privacy">
+        <div class="container">
+            <div class="privacy-content">
+                <h2>Политика конфиденциальности <span class="animated-icon">🔒</span></h2>
+                
+                <h3>1. Общие положения</h3>
+                <p>Настоящая Политика конфиденциальности регулирует порядок обработки и использования персональных данных на сайте ValScripts (далее – Сайт). Используя Сайт, вы соглашаетесь с условиями данной Политики конфиденциальности.</p>
+                
+                <h3>2. Собираемая информация</h3>
+                <p>Мы можем собирать следующую информацию:</p>
+                <ul>
+                    <li>Личные данные: имя, адрес электронной почты, номер телефона</li>
+                    <li>Информация о платежах: данные банковской карты (обрабатываются безопасно через платежные системы)</li>
+                    <li>Техническая информация: IP-адрес, тип браузера, данные о посещении Сайта</li>
+                </ul>
+                
+                <h3>3. Использование информации</h3>
+                <p>Собранная информация используется для:</p>
+                <ul>
+                    <li>Предоставления услуг и продуктов</li>
+                    <li>Обработки платежей</li>
+                    <li>Улучшения качества обслуживания</li>
+                    <li>Отправки информационных сообщений (с вашего согласия)</li>
+                </ul>
+                
+                <h3>4. Защита данных</h3>
+                <p>Мы принимаем все необходимые меры для защиты ваших персональных данных от несанкционированного доступа, изменения, раскрытия или уничтожения.</p>
+                
+                <h3>5. Передача данных третьим лицам</h3>
+                <p>Мы не передаем ваши персональные данные третьим лицам, за исключением случаев, когда это требуется для предоставления услуг (например, платежные системы) или по требованию законодательства.</p>
+                
+                <h3>6. Cookies</h3>
+                <p>Сайт использует файлы cookie для улучшения пользовательского опыта. Вы можете отключить cookies в настройках браузера.</p>
+                
+                <h3>7. Изменения в Политике</h3>
+                <p>Мы оставляем за собой право вносить изменения в настоящую Политику конфиденциальности. Актуальная версия всегда доступна на Сайте.</p>
+                
+                <h3>8. Контакты</h3>
+                <p>Если у вас есть вопросы относительно нашей Политики конфиденциальности, свяжитесь с нами через раздел "Контакты" на Сайте.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ValScripts</h3>
+                    <ul>
+                        <li><a href="#about">О компании</a></li>
+                        <li><a href="#reviews">Отзывы</a></li>
+                        <li><a href="#contact">Контакты</a></li>
+                        <li><a href="#privacy">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Категории</h3>
+                    <ul>
+                        <li><a href="#products" data-category="programming">Языки программирования</a></li>
+                        <li><a href="#products" data-category="games">Игровые скрипты</a></li>
+                        <li><a href="#products" data-category="automation">Автоматизация</a></li>
+                        <li><a href="#products" data-category="trading">Трейдинг</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Поддержка</h3>
+                    <ul>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">Документация</a></li>
+                        <li><a href="#">Условия использования</a></li>
+                        <li><a href="#privacy">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="mailto:pixelgearmail@gmail.com">pixelgearmail@gmail.com</a></li>
+                        <li><a href="https://t.me/valscripts_support" target="_blank">Telegram: @valscripts_support</a></li>
+                        <li><a href="#">Форум поддержки</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 ValScripts. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Уведомление</span>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-login">&times;</span>
+            <h2 class="modal-title">Вход в аккаунт <span class="animated-icon">🔑</span></h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                Нет аккаунта? <a href="#" id="show-register">Зарегистрироваться</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-register">&times;</span>
+            <h2 class="modal-title">Регистрация <span class="animated-icon">👤</span></h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Имя</label>
+                    <input type="text" id="register-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-phone">Телефон</label>
+                    <input type="tel" id="register-phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Пароль</label>
+                    <input type="password" id="register-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-user-plus"></i> Зарегистрироваться
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                Уже есть аккаунт? <a href="#" id="show-login">Войти</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Balance Modal -->
+    <div class="modal" id="balance-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-balance">&times;</span>
+            <h2 class="modal-title">Пополнение баланса <span class="animated-icon">💰</span></h2>
+            
+            <div class="payment-methods">
+                <div class="payment-method active" data-method="crypto">
+                    <div class="payment-icon">
+                        <i class="fab fa-bitcoin"></i>
+                    </div>
+                    <div>Криптовалюта</div>
+                </div>
+                <div class="payment-method" data-method="card">
+                    <div class="payment-icon">
+                        <i class="far fa-credit-card"></i>
+                    </div>
+                    <div>Банковская карта</div>
+                </div>
+                <div class="payment-method" data-method="other">
+                    <div class="payment-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div>Другие способы</div>
+                </div>
+            </div>
+            
+            <div id="crypto-payment" class="payment-content">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fab fa-bitcoin" style="font-size: 3rem; color: #f59e0b; margin-bottom: 15px;"></i>
+                    <h3>Оплата USDT</h3>
+                    <p style="margin: 15px 0;">Вы можете пополнить баланс с помощью USDT (ERC-20).</p>
+                    
+                    <div class="crypto-address">
+                        0x313f9AD9002a03F265fCeA60012b8A48085Ca579
+                    </div>
+                    
+                    <div class="crypto-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x313f9AD9002a03F265fCeA60012b8A48085Ca579" alt="QR код для оплаты USDT">
+                    </div>
+                    
+                    <div class="secure-payment">
+                        <i class="fas fa-lock"></i>
+                        <span>Безопасная оплата USDT</span>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label for="crypto-amount">Сумма пополнения (₽)</label>
+                        <input type="number" id="crypto-amount" class="form-control" min="100" value="1000" required>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" id="confirm-crypto-payment">
+                        <i class="fas fa-check"></i> Подтвердить оплату
+                    </button>
+                </div>
+            </div>
+            
+            <div id="card-payment" class="payment-content" style="display: none;">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="far fa-credit-card" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Оплата банковской картой</h3>
+                    <p style="margin: 15px 0;">Для оплаты банковской картой свяжитесь с нашей поддержкой для получения реквизитов.</p>
+                    <a href="https://t.me/valscripts_support" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-telegram"></i> Связаться с поддержкой
+                    </a>
+                </div>
+            </div>
+            
+            <div id="other-payment" class="payment-content" style="display: none;">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-wallet" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Другие способы оплаты</h3>
+                    <p style="margin: 15px 0;">Мы принимаем оплату через Qiwi, YooMoney, WebMoney и другие платежные системы.</p>
+                    <a href="https://t.me/valscripts_support" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-telegram"></i> Узнать подробности
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div class="modal" id="support-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-support">&times;</span>
+            <h2 class="modal-title">Связь с поддержкой <span class="animated-icon">💬</span></h2>
+            <form id="support-form">
+                <div class="form-group">
+                    <label for="support-subject">Тема сообщения</label>
+                    <input type="text" id="support-subject" class="form-control" placeholder="Например: Проблема с установкой скрипта" required>
+                </div>
+                <div class="form-group">
+                    <label for="support-message">Ваше сообщение</label>
+                    <textarea id="support-message" class="form-control" placeholder="Опишите вашу проблему или вопрос подробно..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-paper-plane"></i> Отправить сообщение
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                Или свяжитесь с нами напрямую: 
+                <a href="https://t.me/valscripts_support" target="_blank">Telegram</a> | 
+                <a href="mailto:pixelgearmail@gmail.com">Email</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="change-password-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-change-password">&times;</span>
+            <h2 class="modal-title">Смена пароля <span class="animated-icon">🔐</span></h2>
+            <form id="change-password-form">
+                <div class="form-group">
+                    <label for="current-password">Текущий пароль</label>
+                    <input type="password" id="current-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Новый пароль</label>
+                    <input type="password" id="new-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Подтвердите новый пароль</label>
+                    <input type="password" id="confirm-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-key"></i> Сменить пароль
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Get Code Modal -->
+    <div class="modal" id="get-code-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-get-code">&times;</span>
+            <h2 class="modal-title">Получение кода скрипта <span class="animated-icon">🔑</span></h2>
+            <div style="text-align: center; padding: 20px;">
+                <i class="fas fa-key" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                <h3>Для получения кода скрипта</h3>
+                <p style="margin: 15px 0;">После успешной покупки свяжитесь с нами в Telegram и укажите:</p>
+                <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                    <li>Ваш email</li>
+                    <li>Название приобретенного скрипта</li>
+                    <li>Дату покупки</li>
+                </ul>
+                <p style="margin: 15px 0;">Мы отправим вам код активации в течение 15 минут после обращения.</p>
+                <a href="https://t.me/valscripts_support" class="btn btn-primary" target="_blank" style="margin-top: 20px;">
+                    <i class="fab fa-telegram"></i> Написать в Telegram
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal" id="user-profile-modal">
+        <div class="modal-content modal-wide">
+            <span class="close-modal" id="close-user-profile">&times;</span>
+            <h2 class="modal-title">Профиль пользователя <span class="animated-icon">👤</span></h2>
+            <div id="user-profile-content">
+                <!-- Содержимое профиля будет загружено через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Balance Modal -->
+    <div class="modal" id="add-balance-admin-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-add-balance-admin">&times;</span>
+            <h2 class="modal-title">Пополнение баланса пользователя <span class="animated-icon">💰</span></h2>
+            <form id="add-balance-admin-form">
+                <div class="form-group">
+                    <label for="admin-user-email">Email пользователя</label>
+                    <input type="email" id="admin-user-email" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="admin-balance-amount">Сумма пополнения (₽)</label>
+                    <input type="number" id="admin-balance-amount" class="form-control" min="1" value="1000" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-plus"></i> Пополнить баланс
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Generate Code Modal -->
+    <div class="modal" id="generate-code-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-generate-code">&times;</span>
+            <h2 class="modal-title">Выдать код скрипта <span class="animated-icon">🔑</span></h2>
+            <div id="generate-code-content">
+                <!-- Содержимое будет загружено через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // База данных пользователей
+        class UserDatabase {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('valscripts_users')) || {};
+                this.currentUser = JSON.parse(localStorage.getItem('valscripts_current_user')) || null;
+                this.purchases = JSON.parse(localStorage.getItem('valscripts_purchases')) || [];
+                this.messages = JSON.parse(localStorage.getItem('valscripts_messages')) || [];
+                this.codes = JSON.parse(localStorage.getItem('valscripts_codes')) || {};
+                this.balanceHistory = JSON.parse(localStorage.getItem('valscripts_balance_history')) || {};
+                
+                // Создаем тестового администратора, если его нет
+                if (!this.users['owner@valscripts.com']) {
+                    this.users['owner@valscripts.com'] = {
+                        name: 'Владелец ValScripts',
+                        email: 'owner@valscripts.com',
+                        phone: '+7 (999) 999-99-99',
+                        password: 'owner123',
+                        balance: 100000,
+                        registrationDate: new Date().toISOString(),
+                        isAdmin: true
+                    };
+                    this.saveUsers();
+                }
+            }
+            
+            saveUsers() {
+                localStorage.setItem('valscripts_users', JSON.stringify(this.users));
+                localStorage.setItem('valscripts_current_user', JSON.stringify(this.currentUser));
+                localStorage.setItem('valscripts_purchases', JSON.stringify(this.purchases));
+                localStorage.setItem('valscripts_messages', JSON.stringify(this.messages));
+                localStorage.setItem('valscripts_codes', JSON.stringify(this.codes));
+                localStorage.setItem('valscripts_balance_history', JSON.stringify(this.balanceHistory));
+            }
+            
+            register(userData) {
+                if (this.users[userData.email]) {
+                    return { success: false, message: 'Пользователь с таким email уже существует' };
+                }
+                
+                this.users[userData.email] = {
+                    ...userData,
+                    balance: 0,
+                    registrationDate: new Date().toISOString(),
+                    isAdmin: false
+                };
+                
+                // Инициализируем историю баланса для нового пользователя
+                this.balanceHistory[userData.email] = [];
+                
+                this.saveUsers();
+                return { success: true, message: 'Регистрация прошла успешно' };
+            }
+            
+            login(email, password) {
+                const user = this.users[email];
+                if (!user || user.password !== password) {
+                    return { success: false, message: 'Неверный email или пароль' };
+                }
+                
+                this.currentUser = { email, ...user };
+                this.saveUsers();
+                return { success: true, message: 'Вход выполнен успешно', user: this.currentUser };
+            }
+            
+            logout() {
+                this.currentUser = null;
+                this.saveUsers();
+            }
+            
+            changePassword(email, currentPassword, newPassword) {
+                const user = this.users[email];
+                if (!user || user.password !== currentPassword) {
+                    return { success: false, message: 'Текущий пароль неверен' };
+                }
+                
+                user.password = newPassword;
+                if (this.currentUser && this.currentUser.email === email) {
+                    this.currentUser.password = newPassword;
+                }
+                
+                this.saveUsers();
+                return { success: true, message: 'Пароль успешно изменен' };
+            }
+            
+            addBalance(email, amount, source = 'crypto') {
+                if (this.users[email]) {
+                    this.users[email].balance += amount;
+                    if (this.currentUser && this.currentUser.email === email) {
+                        this.currentUser.balance += amount;
+                    }
+                    
+                    // Добавляем запись в историю баланса
+                    if (!this.balanceHistory[email]) {
+                        this.balanceHistory[email] = [];
+                    }
+                    
+                    this.balanceHistory[email].push({
+                        amount,
+                        source,
+                        date: new Date().toISOString(),
+                        type: 'deposit'
+                    });
+                    
+                    this.saveUsers();
+                    return true;
+                }
+                return false;
+            }
+            
+            addBalanceByAdmin(userEmail, amount, adminEmail) {
+                if (this.users[userEmail]) {
+                    this.users[userEmail].balance += amount;
+                    
+                    // Добавляем запись в историю баланса
+                    if (!this.balanceHistory[userEmail]) {
+                        this.balanceHistory[userEmail] = [];
+                    }
+                    
+                    this.balanceHistory[userEmail].push({
+                        amount,
+                        source: 'admin',
+                        admin: adminEmail,
+                        date: new Date().toISOString(),
+                        type: 'deposit'
+                    });
+                    
+                    this.saveUsers();
+                    return true;
+                }
+                return false;
+            }
+            
+            purchaseProduct(email, product, price) {
+                if (!this.users[email] || this.users[email].balance < price) {
+                    return { success: false, message: 'Недостаточно средств на балансе' };
+                }
+                
+                this.users[email].balance -= price;
+                if (this.currentUser && this.currentUser.email === email) {
+                    this.currentUser.balance -= price;
+                }
+                
+                // Добавляем запись в историю баланса
+                if (!this.balanceHistory[email]) {
+                    this.balanceHistory[email] = [];
+                }
+                
+                this.balanceHistory[email].push({
+                    amount: -price,
+                    product: product,
+                    date: new Date().toISOString(),
+                    type: 'purchase'
+                });
+                
+                const purchase = {
+                    id: Date.now(),
+                    email,
+                    product,
+                    price,
+                    date: new Date().toISOString(),
+                    code: null // Код будет сгенерирован после обращения в поддержку
+                };
+                
+                this.purchases.push(purchase);
+                this.saveUsers();
+                
+                return { success: true, message: 'Покупка успешно завершена', purchase };
+            }
+            
+            getUserPurchases(email) {
+                return this.purchases.filter(p => p.email === email);
+            }
+            
+            getUserBalanceHistory(email) {
+                return this.balanceHistory[email] || [];
+            }
+            
+            generateCode(purchaseId, customCode = null) {
+                const purchase = this.purchases.find(p => p.id === purchaseId);
+                if (purchase && !purchase.code) {
+                    // Используем кастомный код или генерируем случайный
+                    const code = customCode || 'VS-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+                    purchase.code = code;
+                    this.saveUsers();
+                    return code;
+                }
+                return purchase ? purchase.code : null;
+            }
+            
+            sendMessage(messageData) {
+                const message = {
+                    id: Date.now(),
+                    ...messageData,
+                    date: new Date().toISOString(),
+                    read: false,
+                    replies: []
+                };
+                
+                this.messages.push(message);
+                this.saveUsers();
+                
+                return { success: true, message: 'Сообщение отправлено' };
+            }
+            
+            getMessagesForUser(email) {
+                return this.messages.filter(m => m.email === email);
+            }
+            
+            getAllMessages() {
+                return this.messages;
+            }
+            
+            markMessageAsRead(messageId) {
+                const message = this.messages.find(m => m.id === messageId);
+                if (message) {
+                    message.read = true;
+                    this.saveUsers();
+                    return true;
+                }
+                return false;
+            }
+            
+            addReply(messageId, replyData) {
+                const message = this.messages.find(m => m.id === messageId);
+                if (message) {
+                    const reply = {
+                        id: Date.now(),
+                        ...replyData,
+                        date: new Date().toISOString()
+                    };
+                    
+                    message.replies.push(reply);
+                    this.saveUsers();
+                    return true;
+                }
+                return false;
+            }
+            
+            getUnreadMessagesCount() {
+                return this.messages.filter(m => !m.read).length;
+            }
+            
+            getTotalRevenue() {
+                return this.purchases.reduce((total, purchase) => total + purchase.price, 0);
+            }
+            
+            getAllUsers() {
+                return Object.values(this.users).filter(user => !user.isAdmin);
+            }
+            
+            getUserByEmail(email) {
+                return this.users[email];
+            }
+        }
+
+        // Инициализация базы данных
+        const userDB = new UserDatabase();
+
+        // Данные продуктов
+        const productsData = [
+            {
+                id: 1,
+                name: "Haskell скрипт",
+                category: "programming",
+                price: 250,
+                description: "Мощный скрипт для функционального программирования с поддержкой параллельных вычислений.",
+                image: "https://images.unsplash.com/photo-1624953587687-daf255b6b80a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: "Хит"
+            },
+            {
+                id: 2,
+                name: "C++ скрипт",
+                category: "programming", 
+                price: 200,
+                description: "Высокопроизводительный скрипт для системного программирования и низкоуровневых операций.",
+                image: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: null
+            },
+            {
+                id: 3,
+                name: "Java скрипт",
+                category: "programming",
+                price: 155,
+                description: "Универсальный скрипт для создания кроссплатформенных приложений и enterprise-решений.",
+                image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: null
+            },
+            {
+                id: 4,
+                name: "Python скрипт",
+                category: "programming",
+                price: 25,
+                description: "Простой и мощный скрипт для автоматизации, анализа данных и машинного обучения.",
+                image: "https://images.unsplash.com/photo-1526379879527-8559ecfcaec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: "Популярный"
+            },
+            {
+                id: 5,
+                name: "Auto Farmer Pro",
+                category: "games",
+                price: 890,
+                description: "Автоматизирует сбор ресурсов в популярных играх. Экономит время и повышает эффективность.",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: "Топ"
+            },
+            {
+                id: 6,
+                name: "Social Media Bot",
+                category: "automation",
+                price: 1200,
+                description: "Автоматизирует публикации, лайки и подписки в социальных сетях. Настраивается под ваши нужды.",
+                image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: "Новинка"
+            },
+            {
+                id: 7,
+                name: "Crypto Trader Pro",
+                category: "trading",
+                price: 2500,
+                description: "Анализирует рынок криптовалют и автоматически совершает выгодные сделки.",
+                image: "https://images.unsplash.com/photo-1621761191311-c6d6dea8d46b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: "Премиум"
+            },
+            {
+                id: 8,
+                name: "SEO Optimizer",
+                category: "web",
+                price: 1100,
+                description: "Автоматически оптимизирует сайты для поисковых систем, повышая их видимость.",
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                badge: null
+            }
+        ];
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            updateAuthUI();
+            initEventHandlers();
+            loadProducts();
+            initScrollEffects();
+            initModals();
+            initPaymentSystem();
+            initReviewsSlider();
+        }
+
+        function updateAuthUI() {
+            const authButtons = document.getElementById('auth-buttons');
+            const userPanel = document.getElementById('user-panel');
+            const adminPanel = document.getElementById('admin-panel');
+            
+            if (userDB.currentUser) {
+                const isAdmin = userDB.currentUser.isAdmin;
+                
+                authButtons.innerHTML = `
+                    <div class="user-info">
+                        <span>${userDB.currentUser.name} ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</span>
+                        <span class="user-balance">${userDB.currentUser.balance} ₽</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" id="logout-header-btn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                `;
+                
+                if (isAdmin) {
+                    adminPanel.style.display = 'block';
+                    userPanel.style.display = 'none';
+                    updateAdminPanel();
+                } else {
+                    userPanel.style.display = 'block';
+                    adminPanel.style.display = 'none';
+                    updateUserPanel();
+                }
+                
+                document.getElementById('logout-header-btn').addEventListener('click', logout);
+                document.getElementById('logout-btn').addEventListener('click', logout);
+                document.getElementById('admin-logout-btn').addEventListener('click', logout);
+                document.getElementById('add-balance-btn').addEventListener('click', showBalanceModal);
+                document.getElementById('contact-support-btn').addEventListener('click', showSupportModal);
+                document.getElementById('change-password-btn').addEventListener('click', showChangePasswordModal);
+                document.getElementById('admin-change-password-btn').addEventListener('click', showChangePasswordModal);
+            } else {
+                authButtons.innerHTML = `
+                    <a href="#" class="btn btn-outline btn-sm" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </a>
+                    <a href="#" class="btn btn-primary btn-sm" id="register-btn">
+                        <i class="fas fa-user-plus"></i> Регистрация
+                    </a>
+                `;
+                userPanel.style.display = 'none';
+                adminPanel.style.display = 'none';
+                
+                document.getElementById('login-btn').addEventListener('click', showLoginModal);
+                document.getElementById('register-btn').addEventListener('click', showRegisterModal);
+            }
+        }
+
+        function updateUserPanel() {
+            if (userDB.currentUser) {
+                document.getElementById('user-balance').textContent = `${userDB.currentUser.balance} ₽`;
+                document.getElementById('user-purchases-count').textContent = userDB.getUserPurchases(userDB.currentUser.email).length;
+                document.getElementById('user-registration-date').textContent = new Date(userDB.currentUser.registrationDate).toLocaleDateString('ru-RU');
+                
+                const purchasesList = document.getElementById('user-purchases-list');
+                const userPurchases = userDB.getUserPurchases(userDB.currentUser.email);
+                
+                if (userPurchases.length === 0) {
+                    purchasesList.innerHTML = '<div class="user-purchase-item">Покупок пока нет</div>';
+                } else {
+                    purchasesList.innerHTML = userPurchases.map(purchase => `
+                        <div class="user-purchase-item">
+                            <div class="purchase-info">
+                                <h4>${purchase.product}</h4>
+                                <p>${new Date(purchase.date).toLocaleDateString('ru-RU')}</p>
+                                ${purchase.code ? `
+                                    <div class="purchase-code">
+                                        Код: ${purchase.code}
+                                    </div>
+                                ` : `
+                                    <button class="btn btn-sm btn-outline get-code-btn" data-purchase-id="${purchase.id}">
+                                        <i class="fas fa-key"></i> Получить код
+                                    </button>
+                                `}
+                            </div>
+                            <div class="purchase-time">${purchase.price} ₽</div>
+                        </div>
+                    `).join('');
+                    
+                    // Обработчики для кнопок получения кода
+                    document.querySelectorAll('.get-code-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            showGetCodeModal();
+                        });
+                    });
+                }
+            }
+        }
+
+        function updateAdminPanel() {
+            if (userDB.currentUser && userDB.currentUser.isAdmin) {
+                // Статистика
+                document.getElementById('total-users').textContent = Object.keys(userDB.users).length;
+                document.getElementById('total-purchases').textContent = userDB.purchases.length;
+                document.getElementById('total-revenue').textContent = `${userDB.getTotalRevenue()} ₽`;
+                document.getElementById('unread-messages').textContent = userDB.getUnreadMessagesCount();
+                
+                // Список пользователей
+                const usersList = document.getElementById('users-list');
+                const allUsers = userDB.getAllUsers();
+                
+                if (allUsers.length === 0) {
+                    usersList.innerHTML = '<div class="user-item">Пользователей пока нет</div>';
+                } else {
+                    usersList.innerHTML = allUsers.map(user => `
+                        <div class="user-item">
+                            <div class="user-details">
+                                <div class="user-name">${user.name}</div>
+                                <div class="user-email">${user.email}</div>
+                                <div>Зарегистрирован: ${new Date(user.registrationDate).toLocaleDateString('ru-RU')}</div>
+                            </div>
+                            <div class="user-balance-info">${user.balance} ₽</div>
+                            <div class="user-actions">
+                                <button class="btn btn-sm btn-info view-profile-btn" data-user-email="${user.email}">
+                                    <i class="fas fa-eye"></i> Профиль
+                                </button>
+                                <button class="btn btn-sm btn-success add-balance-btn" data-user-email="${user.email}">
+                                    <i class="fas fa-plus"></i> Баланс
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    // Обработчики для кнопок пользователей
+                    document.querySelectorAll('.view-profile-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const userEmail = this.getAttribute('data-user-email');
+                            showUserProfile(userEmail);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.add-balance-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const userEmail = this.getAttribute('data-user-email');
+                            showAddBalanceAdminModal(userEmail);
+                        });
+                    });
+                }
+                
+                // Сообщения
+                const messagesList = document.getElementById('admin-messages-list');
+                const allMessages = userDB.getAllMessages();
+                
+                if (allMessages.length === 0) {
+                    messagesList.innerHTML = '<div class="message-item">Сообщений пока нет</div>';
+                } else {
+                    messagesList.innerHTML = allMessages.map(message => `
+                        <div class="message-item ${!message.read ? 'unread' : ''}">
+                            <div class="message-header">
+                                <div class="message-sender">${message.name} (${message.email})</div>
+                                <div class="message-date">${new Date(message.date).toLocaleString('ru-RU')}</div>
+                            </div>
+                            <div class="message-content">
+                                <strong>${message.subject}</strong>
+                                <p>${message.message}</p>
+                            </div>
+                            ${message.replies.length > 0 ? `
+                                <div class="message-reply">
+                                    <div class="message-sender">Ответ поддержки</div>
+                                    <div class="message-content">${message.replies[message.replies.length - 1].message}</div>
+                                </div>
+                            ` : ''}
+                            <div style="margin-top: 10px;">
+                                <button class="btn btn-sm btn-outline reply-btn" data-message-id="${message.id}">
+                                    <i class="fas fa-reply"></i> Ответить
+                                </button>
+                                ${!message.read ? `
+                                    <button class="btn btn-sm btn-primary mark-read-btn" data-message-id="${message.id}">
+                                        <i class="fas fa-check"></i> Отметить прочитанным
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    // Обработчики для кнопок в сообщениях
+                    document.querySelectorAll('.reply-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const messageId = parseInt(this.getAttribute('data-message-id'));
+                            const message = userDB.getAllMessages().find(m => m.id === messageId);
+                            if (message) {
+                                const reply = prompt(`Ответить на сообщение от ${message.name} (${message.email}):`);
+                                if (reply && reply.trim() !== '') {
+                                    userDB.addReply(messageId, {
+                                        name: 'Поддержка ValScripts',
+                                        message: reply.trim()
+                                    });
+                                    updateAdminPanel();
+                                    showNotification('Ответ отправлен пользователю');
+                                }
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.mark-read-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const messageId = parseInt(this.getAttribute('data-message-id'));
+                            userDB.markMessageAsRead(messageId);
+                            updateAdminPanel();
+                            showNotification('Сообщение отмечено как прочитанное');
+                        });
+                    });
+                }
+                
+                // Покупки
+                const purchasesList = document.getElementById('admin-purchases-list');
+                const allPurchases = userDB.purchases.slice(-10).reverse(); // Последние 10 покупок
+                
+                if (allPurchases.length === 0) {
+                    purchasesList.innerHTML = '<div class="user-purchase-item">Покупок пока нет</div>';
+                } else {
+                    purchasesList.innerHTML = allPurchases.map(purchase => `
+                        <div class="user-purchase-item">
+                            <div class="purchase-info">
+                                <h4>${purchase.product}</h4>
+                                <p>${userDB.users[purchase.email]?.name || purchase.email} - ${new Date(purchase.date).toLocaleString('ru-RU')}</p>
+                                ${purchase.code ? `
+                                    <div class="purchase-code">
+                                        Код: ${purchase.code}
+                                    </div>
+                                ` : `
+                                    <button class="btn btn-sm btn-warning generate-code-btn" data-purchase-id="${purchase.id}">
+                                        <i class="fas fa-key"></i> Выдать код
+                                    </button>
+                                `}
+                            </div>
+                            <div class="purchase-time">${purchase.price} ₽</div>
+                        </div>
+                    `).join('');
+                    
+                    // Обработчики для кнопок выдачи кода
+                    document.querySelectorAll('.generate-code-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const purchaseId = parseInt(this.getAttribute('data-purchase-id'));
+                            generateCodeForPurchase(purchaseId);
+                        });
+                    });
+                }
+            }
+        }
+
+        function showUserProfile(userEmail) {
+            const user = userDB.getUserByEmail(userEmail);
+            if (!user) return;
+            
+            const userPurchases = userDB.getUserPurchases(userEmail);
+            const balanceHistory = userDB.getUserBalanceHistory(userEmail);
+            
+            document.getElementById('user-profile-content').innerHTML = `
+                <div class="user-stats">
+                    <div class="stat">
+                        <div class="stat-value">${user.balance} ₽</div>
+                        <div class="stat-label">Баланс</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${userPurchases.length}</div>
+                        <div class="stat-label">Покупок</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${new Date(user.registrationDate).toLocaleDateString('ru-RU')}</div>
+                        <div class="stat-label">Дата регистрации</div>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Информация о пользователе</h3>
+                    <div style="padding: 20px; background: var(--light-gray); border-radius: 10px;">
+                        <p><strong>Имя:</strong> ${user.name}</p>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Телефон:</strong> ${user.phone}</p>
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>История баланса</h3>
+                    <div class="user-purchases">
+                        ${balanceHistory.length === 0 ? 
+                            '<div class="user-purchase-item">История операций пуста</div>' : 
+                            balanceHistory.map(record => `
+                                <div class="user-purchase-item">
+                                    <div class="purchase-info">
+                                        <h4>${record.type === 'deposit' ? 'Пополнение' : 'Покупка'} ${record.product ? `- ${record.product}` : ''}</h4>
+                                        <p>${new Date(record.date).toLocaleString('ru-RU')}</p>
+                                        ${record.source === 'admin' ? `<p><small>Зачислено администратором: ${record.admin}</small></p>` : ''}
+                                    </div>
+                                    <div class="purchase-time" style="color: ${record.amount > 0 ? 'var(--success)' : 'var(--danger)'}">
+                                        ${record.amount > 0 ? '+' : ''}${record.amount} ₽
+                                    </div>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3>Покупки пользователя</h3>
+                    <div class="user-purchases">
+                        ${userPurchases.length === 0 ? 
+                            '<div class="user-purchase-item">Покупок пока нет</div>' : 
+                            userPurchases.map(purchase => `
+                                <div class="user-purchase-item">
+                                    <div class="purchase-info">
+                                        <h4>${purchase.product}</h4>
+                                        <p>${new Date(purchase.date).toLocaleString('ru-RU')}</p>
+                                        ${purchase.code ? `
+                                            <div class="purchase-code">
+                                                Код: ${purchase.code}
+                                            </div>
+                                        ` : '<span style="color: var(--warning);">Код не выдан</span>'}
+                                    </div>
+                                    <div class="purchase-time">${purchase.price} ₽</div>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('user-profile-modal').style.display = 'flex';
+        }
+
+        function showAddBalanceAdminModal(userEmail) {
+            document.getElementById('admin-user-email').value = userEmail;
+            document.getElementById('add-balance-admin-modal').style.display = 'flex';
+        }
+
+        function showGenerateCodeModal(purchaseId) {
+            const purchase = userDB.purchases.find(p => p.id === purchaseId);
+            if (!purchase) return;
+            
+            document.getElementById('generate-code-content').innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-key" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3>Выдать код для "${purchase.product}"</h3>
+                    <p style="margin: 15px 0;">Пользователь: ${userDB.users[purchase.email]?.name || purchase.email}</p>
+                    
+                    <div class="form-group">
+                        <label for="custom-code-input">Введите код (максимум 100000000000000000000000000000000000000000000000000 символов)</label>
+                        <input type="text" id="custom-code-input" class="form-control" 
+                               placeholder="Введите код активации..." 
+                               maxlength="100000000000000000000000000000000000000000000000000"
+                               style="font-family: monospace; font-size: 1.1rem;">
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary" id="generate-custom-code-btn">
+                            <i class="fas fa-check"></i> Выдать код
+                        </button>
+                        <button class="btn btn-outline" id="generate-random-code-btn" style="margin-left: 10px;">
+                            <i class="fas fa-random"></i> Сгенерировать случайный код
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('generate-code-modal').style.display = 'flex';
+            
+            // Обработчики для кнопок
+            document.getElementById('generate-custom-code-btn').addEventListener('click', function() {
+                const customCode = document.getElementById('custom-code-input').value.trim();
+                if (!customCode) {
+                    showNotification('Введите код', true);
+                    return;
+                }
+                
+                if (customCode.length > 100000000000000000000000000000000000000000000000000) {
+                    showNotification('Код слишком длинный', true);
+                    return;
+                }
+                
+                // Сохраняем кастомный код
+                const purchase = userDB.purchases.find(p => p.id === purchaseId);
+                if (purchase) {
+                    purchase.code = customCode;
+                    userDB.saveUsers();
+                    
+                    // Отправляем код пользователю
+                    sendCodeToUser(purchase.email, purchase.product, customCode);
+                    
+                    document.getElementById('generate-code-modal').style.display = 'none';
+                    updateAdminPanel();
+                    showNotification('Код успешно выдан пользователю');
+                }
+            });
+            
+            document.getElementById('generate-random-code-btn').addEventListener('click', function() {
+                // Генерация случайного кода
+                const randomCode = 'VS-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+                document.getElementById('custom-code-input').value = randomCode;
+            });
+        }
+
+        function generateCodeForPurchase(purchaseId) {
+            showGenerateCodeModal(purchaseId);
+        }
+
+        function sendCodeToUser(userEmail, productName, code) {
+            // В реальном приложении здесь была бы отправка email или push-уведомления
+            // В нашем случае просто показываем уведомление для демонстрации
+            
+            // Сохраняем уведомление для пользователя
+            if (!userDB.messages) userDB.messages = [];
+            
+            userDB.messages.push({
+                id: Date.now(),
+                name: 'Система ValScripts',
+                email: userEmail,
+                subject: `Код активации для ${productName}`,
+                message: `Ваш код активации для скрипта "${productName}": ${code}. Сохраните его в надежном месте.`,
+                date: new Date().toISOString(),
+                read: false,
+                replies: []
+            });
+            
+            userDB.saveUsers();
+            
+            // Если пользователь сейчас в системе, показываем уведомление
+            if (userDB.currentUser && userDB.currentUser.email === userEmail) {
+                showNotification(`Получен код активации для "${productName}": ${code}`, false, true);
+            }
+        }
+
+        function loadProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            
+            productsGrid.innerHTML = productsData.map(product => `
+                <div class="product-card" data-category="${product.category}">
+                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${getCategoryName(product.category)}</div>
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${product.price} ₽</div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
+                            <button class="btn btn-primary btn-sm buy-btn" 
+                                    data-product="${product.name}" 
+                                    data-price="${product.price}">
+                                <i class="fas fa-shopping-cart"></i> Купить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Инициализация фильтрации по категориям
+            initCategoryFilter();
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'programming': 'Языки программирования',
+                'games': 'Игровые скрипты',
+                'automation': 'Автоматизация',
+                'trading': 'Трейдинг',
+                'web': 'Веб-скрипты'
+            };
+            return categories[category] || category;
+        }
+
+        function initCategoryFilter() {
+            const tabs = document.querySelectorAll('.category-tab');
+            const products = document.querySelectorAll('.product-card');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Убираем активный класс у всех вкладок
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Добавляем активный класс текущей вкладке
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    products.forEach(product => {
+                        if (category === 'all' || product.getAttribute('data-category') === category) {
+                            product.style.display = 'block';
+                            // Анимация появления
+                            setTimeout(() => {
+                                product.style.opacity = '1';
+                                product.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Обработчики для ссылок в футере
+            document.querySelectorAll('.footer-column a[data-category]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.getAttribute('data-category');
+                    
+                    // Активируем соответствующую вкладку
+                    tabs.forEach(tab => {
+                        if (tab.getAttribute('data-category') === category) {
+                            tab.click();
+                        }
+                    });
+                    
+                    // Прокручиваем к секции с продуктами
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        function initScrollEffects() {
+            // Эффект скролла для хедера
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('main-header');
+                if (window.scrollY > 100) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+            
+            // Плавная прокрутка к якорям
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        function initModals() {
+            // Модальное окно входа
+            const loginModal = document.getElementById('login-modal');
+            const loginBtn = document.getElementById('login-btn');
+            const closeLogin = document.getElementById('close-login');
+            const showRegister = document.getElementById('show-register');
+            
+            if (loginBtn) loginBtn.addEventListener('click', showLoginModal);
+            closeLogin.addEventListener('click', () => loginModal.style.display = 'none');
+            showRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'none';
+                showRegisterModal();
+            });
+            
+            // Модальное окно регистрации
+            const registerModal = document.getElementById('register-modal');
+            const registerBtn = document.getElementById('register-btn');
+            const closeRegister = document.getElementById('close-register');
+            const showLogin = document.getElementById('show-login');
+            
+            if (registerBtn) registerBtn.addEventListener('click', showRegisterModal);
+            closeRegister.addEventListener('click', () => registerModal.style.display = 'none');
+            showLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                registerModal.style.display = 'none';
+                showLoginModal();
+            });
+            
+            // Модальное окно пополнения баланса
+            const balanceModal = document.getElementById('balance-modal');
+            const closeBalance = document.getElementById('close-balance');
+            
+            closeBalance.addEventListener('click', () => balanceModal.style.display = 'none');
+            
+            // Модальное окно поддержки
+            const supportModal = document.getElementById('support-modal');
+            const closeSupport = document.getElementById('close-support');
+            
+            closeSupport.addEventListener('click', () => supportModal.style.display = 'none');
+            
+            // Модальное окно смены пароля
+            const changePasswordModal = document.getElementById('change-password-modal');
+            const closeChangePassword = document.getElementById('close-change-password');
+            
+            closeChangePassword.addEventListener('click', () => changePasswordModal.style.display = 'none');
+            
+            // Модальное окно получения кода
+            const getCodeModal = document.getElementById('get-code-modal');
+            const closeGetCode = document.getElementById('close-get-code');
+            
+            closeGetCode.addEventListener('click', () => getCodeModal.style.display = 'none');
+            
+            // Модальное окно профиля пользователя
+            const userProfileModal = document.getElementById('user-profile-modal');
+            const closeUserProfile = document.getElementById('close-user-profile');
+            
+            closeUserProfile.addEventListener('click', () => userProfileModal.style.display = 'none');
+            
+            // Модальное окно пополнения баланса администратором
+            const addBalanceAdminModal = document.getElementById('add-balance-admin-modal');
+            const closeAddBalanceAdmin = document.getElementById('close-add-balance-admin');
+            
+            closeAddBalanceAdmin.addEventListener('click', () => addBalanceAdminModal.style.display = 'none');
+            
+            // Модальное окно генерации кода
+            const generateCodeModal = document.getElementById('generate-code-modal');
+            const closeGenerateCode = document.getElementById('close-generate-code');
+            
+            closeGenerateCode.addEventListener('click', () => generateCodeModal.style.display = 'none');
+            
+            // Закрытие модальных окон при клике вне их области
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) loginModal.style.display = 'none';
+                if (e.target === registerModal) registerModal.style.display = 'none';
+                if (e.target === balanceModal) balanceModal.style.display = 'none';
+                if (e.target === supportModal) supportModal.style.display = 'none';
+                if (e.target === changePasswordModal) changePasswordModal.style.display = 'none';
+                if (e.target === getCodeModal) getCodeModal.style.display = 'none';
+                if (e.target === userProfileModal) userProfileModal.style.display = 'none';
+                if (e.target === addBalanceAdminModal) addBalanceAdminModal.style.display = 'none';
+                if (e.target === generateCodeModal) generateCodeModal.style.display = 'none';
+            });
+            
+            // Обработчики форм
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('register-form').addEventListener('submit', handleRegister);
+            document.getElementById('support-form').addEventListener('submit', handleSupportMessage);
+            document.getElementById('change-password-form').addEventListener('submit', handleChangePassword);
+            document.getElementById('add-balance-admin-form').addEventListener('submit', handleAddBalanceAdmin);
+        }
+
+        function initPaymentSystem() {
+            // Инициализация способов оплаты
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Убираем активный класс у всех методов
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    // Добавляем активный класс текущему методу
+                    this.classList.add('active');
+                    
+                    const methodType = this.getAttribute('data-method');
+                    
+                    // Скрываем все формы оплаты
+                    document.getElementById('card-payment').style.display = 'none';
+                    document.getElementById('crypto-payment').style.display = 'none';
+                    document.getElementById('other-payment').style.display = 'none';
+                    
+                    // Показываем выбранную форму
+                    document.getElementById(`${methodType}-payment`).style.display = 'block';
+                });
+            });
+            
+            // Обновляем адрес USDT и QR код
+            document.getElementById('crypto-address').textContent = '0x313f9AD9002a03F265fCeA60012b8A48085Ca579';
+            document.getElementById('crypto-qr').innerHTML = `
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x313f9AD9002a03F265fCeA60012b8A48085Ca579" alt="QR код для оплаты USDT">
+            `;
+            
+            // Обработка оплаты криптовалютой
+            document.getElementById('confirm-crypto-payment').addEventListener('click', handleCryptoPayment);
+        }
+
+        function initReviewsSlider() {
+            const slider = document.getElementById('reviews-slider');
+            const prevBtn = document.getElementById('prev-review');
+            const nextBtn = document.getElementById('next-review');
+            const dotsContainer = document.getElementById('slider-dots');
+            
+            const reviewCards = document.querySelectorAll('.review-card');
+            const cardWidth = 400; // Ширина карточки + gap
+            let currentPosition = 0;
+            let currentSlide = 0;
+            
+            // Создаем точки для навигации
+            reviewCards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'slider-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Функция для перехода к определенному слайду
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                currentPosition = -slideIndex * cardWidth;
+                slider.style.transform = `translateX(${currentPosition}px)`;
+                
+                // Обновляем активную точку
+                document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === slideIndex);
+                });
+            }
+            
+            // Обработчики для кнопок
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < reviewCards.length - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            });
+            
+            // Автоматическая прокрутка
+            setInterval(() => {
+                if (currentSlide < reviewCards.length - 1) {
+                    goToSlide(currentSlide + 1);
+                } else {
+                    goToSlide(0);
+                }
+            }, 5000);
+        }
+
+        function handleCryptoPayment() {
+            const amount = parseInt(document.getElementById('crypto-amount').value);
+            
+            if (amount < 100) {
+                showNotification('Минимальная сумма пополнения - 100 ₽', true);
+                return;
+            }
+            
+            // Имитация обработки платежа
+            showNotification('Ожидаем подтверждение транзакции...');
+            
+            setTimeout(() => {
+                // Успешная оплата
+                userDB.addBalance(userDB.currentUser.email, amount);
+                document.getElementById('balance-modal').style.display = 'none';
+                updateAuthUI();
+                showNotification(`Баланс успешно пополнен на ${amount} ₽`);
+                
+                // Очистка формы
+                document.getElementById('crypto-amount').value = 1000;
+            }, 3000);
+        }
+
+        function handleAddBalanceAdmin(e) {
+            e.preventDefault();
+            const userEmail = document.getElementById('admin-user-email').value;
+            const amount = parseInt(document.getElementById('admin-balance-amount').value);
+            
+            if (amount < 1) {
+                showNotification('Сумма должна быть положительной', true);
+                return;
+            }
+            
+            const success = userDB.addBalanceByAdmin(userEmail, amount, userDB.currentUser.email);
+            if (success) {
+                document.getElementById('add-balance-admin-modal').style.display = 'none';
+                document.getElementById('add-balance-admin-form').reset();
+                updateAdminPanel();
+                showNotification(`Баланс пользователя ${userEmail} пополнен на ${amount} ₽`);
+            } else {
+                showNotification('Ошибка при пополнении баланса', true);
+            }
+        }
+
+        function showLoginModal() {
+            document.getElementById('login-modal').style.display = 'flex';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('register-modal').style.display = 'flex';
+        }
+
+        function showBalanceModal() {
+            document.getElementById('balance-modal').style.display = 'flex';
+        }
+
+        function showSupportModal() {
+            document.getElementById('support-modal').style.display = 'flex';
+        }
+
+        function showChangePasswordModal() {
+            document.getElementById('change-password-modal').style.display = 'flex';
+        }
+
+        function showGetCodeModal() {
+            document.getElementById('get-code-modal').style.display = 'flex';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const result = userDB.login(email, password);
+            if (result.success) {
+                document.getElementById('login-modal').style.display = 'none';
+                updateAuthUI();
+                showNotification('Вход выполнен успешно!');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            
+            const result = userDB.register({ name, email, phone, password });
+            if (result.success) {
+                document.getElementById('register-modal').style.display = 'none';
+                showNotification('Регистрация прошла успешно! Теперь вы можете войти в систему.');
+                showLoginModal();
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        function handleChangePassword(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Новые пароли не совпадают', true);
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showNotification('Пароль должен содержать не менее 6 символов', true);
+                return;
+            }
+            
+            const result = userDB.changePassword(userDB.currentUser.email, currentPassword, newPassword);
+            if (result.success) {
+                document.getElementById('change-password-modal').style.display = 'none';
+                document.getElementById('change-password-form').reset();
+                showNotification('Пароль успешно изменен!');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        function handleSupportMessage(e) {
+            e.preventDefault();
+            const subject = document.getElementById('support-subject').value;
+            const message = document.getElementById('support-message').value;
+            
+            const result = userDB.sendMessage({
+                name: userDB.currentUser.name,
+                email: userDB.currentUser.email,
+                subject,
+                message
+            });
+            
+            if (result.success) {
+                document.getElementById('support-modal').style.display = 'none';
+                document.getElementById('support-form').reset();
+                showNotification('Сообщение отправлено в поддержку! Мы ответим вам в ближайшее время.');
+            } else {
+                showNotification(result.message, true);
+            }
+        }
+
+        function showNotification(message, isError = false, isWarning = false) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            
+            if (isError) {
+                notification.classList.add('error');
+            } else if (isWarning) {
+                notification.classList.add('warning');
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        function initEventHandlers() {
+            // Обработчики для кнопок покупки
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('buy-btn') || e.target.closest('.buy-btn')) {
+                    const btn = e.target.classList.contains('buy-btn') ? e.target : e.target.closest('.buy-btn');
+                    const product = btn.getAttribute('data-product');
+                    const price = parseInt(btn.getAttribute('data-price'));
+                    
+                    if (!userDB.currentUser) {
+                        showNotification('Для покупки необходимо войти в аккаунт', true);
+                        showLoginModal();
+                        return;
+                    }
+                    
+                    if (userDB.currentUser.balance < price) {
+                        showNotification('Недостаточно средств на балансе. Пополните баланс для совершения покупки.', true);
+                        showBalanceModal();
+                        return;
+                    }
+                    
+                    const result = userDB.purchaseProduct(userDB.currentUser.email, product, price);
+                    if (result.success) {
+                        showNotification(`Скрипт "${product}" успешно приобретен! Свяжитесь с поддержкой в Telegram для получения кода.`, false, true);
+                        updateAuthUI();
+                        updateUserPanel();
+                        
+                        // Показать инструкцию по получению кода
+                        setTimeout(() => {
+                            showGetCodeModal();
+                        }, 2000);
+                        
+                        // Уведомление для владельца
+                        if (userDB.currentUser.isAdmin) {
+                            updateAdminPanel();
+                        } else {
+                            setTimeout(() => {
+                                showNotification(`Владельцу: Пользователь ${userDB.currentUser.email} купил скрипт "${product}" за ${price} ₽`);
+                            }, 1000);
+                        }
+                    } else {
+                        showNotification(result.message, true);
+                    }
+                }
+            });
+            
+            // Обработчики для FAQ
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Закрываем все открытые элементы
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Переключаем текущий элемент
+                    item.classList.toggle('active');
+                });
+            });
+        }
+
+        function logout() {
+            userDB.logout();
+            updateAuthUI();
+            showNotification('Вы вышли из системы');
+        }
+    </script>
+</body>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система отзывов</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Отзывы</h1>
+        
+        <!-- Форма добавления отзыва -->
+        <div class="review-form">
+            <h2>Оставить отзыв</h2>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rating">Оценка:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Выберите оценку</option>
+                        <option value="5">★★★★★ Отлично</option>
+                        <option value="4">★★★★ Хорошо</option>
+                        <option value="3">★★★ Удовлетворительно</option>
+                        <option value="2">★★ Плохо</option>
+                        <option value="1">★ Ужасно</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comment">Комментарий:</label>
+                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                </div>
+                
+                <button type="submit">Отправить отзыв</button>
+            </form>
+        </div>
+        
+        <!-- Список отзывов -->
+        <div class="reviews-list">
+            <h2>Все отзывы</h2>
+            <div id="reviewsContainer">
+                <!-- Отзывы будут добавляться сюда -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
